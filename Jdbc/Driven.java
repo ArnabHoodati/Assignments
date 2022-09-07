@@ -1,5 +1,7 @@
 package Jdbc.Student;
-
+/*
+ * @author Arnab Kumar Hoodati
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -146,6 +148,62 @@ public class Driven {     // main method
 			System.out.println(e);
 		}
 	}
+	// method to update the data
+		public void updateData() {
+			// created scanner object
+			Scanner sc1 = new Scanner(System.in);
+			Scanner sc2 = new Scanner(System.in);
+			Scanner sc3 = new Scanner(System.in);
+			Scanner sc4 = new Scanner(System.in);
+			// created a student class object
+			Student st = new Student();
+
+			System.out.print("Enter ID to update: ");
+			int id = sc1.nextInt();
+			st.setid(id);
+
+			System.out.print("Enter Name to update: ");
+			String name = sc2.nextLine();
+			st.setname(name);
+
+			System.out.print("Enter Address to update: ");
+			String address = sc3.nextLine();
+			st.setaddress(address);
+
+			System.out.print("Enter Phone No. to update: ");
+			int num = sc4.nextInt();
+			st.setphone (num);
+
+			try {
+				// called getConnection() method
+				Connection conn = getConnection();
+				//updating data in database table
+				PreparedStatement ps;
+				String s = "update student set ?,?,?,?";
+				ps = conn.prepareStatement(s);
+				
+				// get all data
+				ps.setString(1, st.getname());
+				ps.setString(2, st.getaddress());
+				ps.setInt(3, st.getphone());
+				ps.setInt(4, st.getid());
+				// execute for update
+				int n = ps.executeUpdate();
+				// closing database connection
+				ps.close();
+				conn.close();
+				// condition to check the update done or not
+				if(n==1) {
+					System.out.println("Updated successfully");
+				}
+				else {
+					System.out.println("Not updated");
+				}
+
+			} catch (Exception e) {	//exception handling
+				System.out.println(e);
+			}
+		}
 	// declare a method for delete the data
 	public void deleteData() {
 		try {
@@ -180,60 +238,5 @@ public class Driven {     // main method
 		}
 		
 	}
-	// method to update the data
-	public void updateData() {
-		// created scanner object
-		Scanner sc1 = new Scanner(System.in);
-		Scanner sc2 = new Scanner(System.in);
-		Scanner sc3 = new Scanner(System.in);
-		Scanner sc4 = new Scanner(System.in);
-		// created a student class object
-		Student st = new Student();
-
-		System.out.print("Enter ID to update: ");
-		int id = sc1.nextInt();
-		st.setid(id);
-
-		System.out.print("Enter Name to update: ");
-		String name = sc2.nextLine();
-		st.setname(name);
-
-		System.out.print("Enter Address to update: ");
-		String address = sc3.nextLine();
-		st.setaddress(address);
-
-		System.out.print("Enter Phone No. to update: ");
-		int num = sc4.nextInt();
-		st.setphone (num);
-
-		try {
-			// called getConnection() method
-			Connection conn = getConnection();
-			//updating data in database table
-			PreparedStatement ps;
-			String s = "update student set ?,?,?,?";
-			ps = conn.prepareStatement(s);
-			
-			// get all data
-			ps.setString(1, st.getname());
-			ps.setString(2, st.getaddress());
-			ps.setInt(3, st.getphone());
-			ps.setInt(4, st.getid());
-			// execute for update
-			int n = ps.executeUpdate();
-			// closing database connection
-			ps.close();
-			conn.close();
-			// condition to check the update done or not
-			if(n==1) {
-				System.out.println("Updated successfully");
-			}
-			else {
-				System.out.println("Not updated");
-			}
-
-		} catch (Exception e) {	//exception handling
-			System.out.println(e);
-		}
-	}
+	
 }
